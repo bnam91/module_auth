@@ -1,7 +1,9 @@
+import os
 import sys
 from googleapiclient.discovery import build
 
-# auth.py 모듈 가져오기 (같은 디렉토리)
+# auth.py 모듈 경로 추가
+sys.path.append(os.path.expanduser("~/Documents/github_cloud/module_auth"))
 import auth
 
 def fetch_first_five_rows(spreadsheet_id, sheet_name):
