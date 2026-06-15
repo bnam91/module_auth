@@ -8,8 +8,11 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from dotenv import load_dotenv
 
-# 환경 변수 로드 (config/.env 경로에서)
-env_path = os.path.join(os.path.dirname(__file__), "config", ".env")
+# 환경 변수 로드 (로컬 시크릿 우선; iCloud dataless(EDEADLK/errno 11) 회피)
+# ~/.config/secrets/.env 가 있으면 그걸 쓰고, 없으면 기존 config/.env 로 폴백(롤백 안전)
+_secrets_env = os.path.join(os.path.expanduser("~"), ".config", "secrets", ".env")
+_legacy_env = os.path.join(os.path.dirname(__file__), "config", ".env")
+env_path = _secrets_env if os.path.exists(_secrets_env) else _legacy_env
 load_dotenv(env_path)
 
 # Google API 접근 범위 설정 (필요한 최소한의 범위만 포함)
