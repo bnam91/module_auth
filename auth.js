@@ -39,6 +39,8 @@ const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 function getTokenPath() {
   // 운영 체제에 따른 토큰 저장 경로 반환
+  // GOOGLE_TOKEN_PATH 로 override 가능 — 모듈별 토큰 분리용(예: node naver_sell vs python cron 충돌 방지)
+  if (process.env.GOOGLE_TOKEN_PATH) return process.env.GOOGLE_TOKEN_PATH;
   if (process.platform === "win32") {
     return path.join(process.env.APPDATA || "", "GoogleAPI", "token.json");
   }
